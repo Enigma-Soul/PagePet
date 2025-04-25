@@ -4,7 +4,20 @@ on:
     discussion:
         types: [ created ]
 permissions:
-    discussions: write
+    actions: read|write|none
+    attestations: read|write|none
+    checks: read|write|none
+    contents: read|write|none
+    deployments: read|write|none
+    id-token: write|none
+    issues: read|write|none
+    models: read|none
+    discussions: read|write|none
+    packages: read|write|none
+    pages: read|write|none
+    pull-requests: read|write|none
+    security-events: read|write|none
+    statuses: read|write|none
 jobs: # 执行的工作
     run_demo_actions:
         runs-on: ubuntu-latest # 在最新版本的 Ubuntu 操作系统环境下运行
