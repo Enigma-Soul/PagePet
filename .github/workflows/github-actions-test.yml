@@ -25,4 +25,7 @@ jobs: # 执行的工作
                     pip install -r ./requirements.txt
             -   name: Run main
                 run: python test_main.py
+                with:
+                    name: test
+                    path: ./test.txt
 
