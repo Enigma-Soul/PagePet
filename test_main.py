@@ -1,5 +1,8 @@
+# test_main.py 可以添加路径验证
+import os
+
 if __name__ == '__main__':
-    print('Hello World!')
+    print('Current working directory:', os.getcwd())
     with open("./test.txt", "w") as f:
         f.write("Hello World!")
-        f.close()
+    print("File created at:", os.path.abspath("test.txt"))
