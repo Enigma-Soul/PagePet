@@ -1,30 +1,33 @@
 name: GitHub Actions Test
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-    discussion:
-        types: [ created ]
-permissions: write-all
+  discussion:
+    types: [created]
+permissions:
+  contents: write  # 更精准的权限控制
 
 jobs:
-    run_demo_actions:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-            
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: '3.10'
-            
-            - name: Install requirements.txt
-              run: pip install -r ./requirements.txt
-            
-            - name: Run main
-              run: python test_main.py  # 移除了无效的with参数
-            
-            - name: Upload test file
-              uses: actions/upload-artifact@v3
-              with:
-                  name: test-output
-                  path: ./test.txt
+  run_demo_actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4  # 升级到最新v4版本
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r ./requirements.txt
+
+      - name: Run main script
+        run: python test_main.py
+
+      - name: Upload generated file
+        uses: actions/upload-artifact@v4  # 必须使用v4版本
+        with:
+          name: generated-files
+          path: |
+            ./test.txt
+          retention-days: 7  # 自动清理旧文件
