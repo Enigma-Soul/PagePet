@@ -21,6 +21,9 @@ jobs: # 执行的工作
             #        run: | # 安装依赖包
             #          pip install -r ./requirements.txt
             
+            -   name: Install requirements.txt
+                run: | # 安装依赖包
+                    pip install -r ./requirements.txt
             -   name: Run main.py
                 run: python test_python
 
