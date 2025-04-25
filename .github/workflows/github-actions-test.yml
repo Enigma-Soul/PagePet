@@ -25,5 +25,5 @@ jobs: # 执行的工作
                 run: | # 安装依赖包
                     pip install -r ./requirements.txt
             -   name: Run main
-                run: python test_python.py
+                run: python test_main.py
 
