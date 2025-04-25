@@ -1,33 +1,35 @@
 name: GitHub Actions Test
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  discussion:
-    types: [created]
+    discussion:
+        types: [ created ]
 permissions:
-  contents: write  # 更精准的权限控制
+    contents: write  # 更精准的权限控制
 
 jobs:
-  run_demo_actions:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4  # 升级到最新v4版本
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: pip install -r ./requirements.txt
-
-      - name: Run main script
-        run: python test_main.py
-
-      - name: Upload generated file
-        uses: actions/upload-artifact@v4  # 必须使用v4版本
-        with:
-          name: generated-files
-          path: |
-            ./test.txt
-          retention-days: 7  # 自动清理旧文件
+    run_demo_actions:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v3
+            
+            -   name: Set up Python
+                uses: actions/setup-python@v4  # 升级到最新v4版本
+                with:
+                    python-version: '3.10'
+            
+            -   name: Install dependencies
+                run: pip install -r ./requirements.txt
+            
+            -   name: Run main script
+                run: python test_main.py
+            
+            -   name: Create output directory
+                run: mkdir -p output  # 确保输出目录存在
+                
+            -   name: Commit and push
+                uses: stefanzweifel/git-auto-commit-action@v5
+                with:
+                    commit_message: "Update text file"
+                    file_pattern: output/test.txt
+                    branch: main
