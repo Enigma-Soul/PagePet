@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修改 LocalStorage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 15px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .nav-link:hover {
+            background-color: #0b7dda;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        .error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        .btn-danger {
+            background-color: #f44336;
+        }
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        .current-storage {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .storage-actions {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>修改 LocalStorage</h1>
+    
+    <form id="storage-form">
+        <div class="form-group">
+            <label for="storage-key">键名:</label>
+            <input type="text" id="storage-key" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="storage-value">键值:</label>
+            <input type="text" id="storage-value" required>
+        </div>
+        
+        <div class="storage-actions">
+            <button type="submit">设置数据</button>
+            <button type="button" id="delete-btn" class="btn-danger">删除数据</button>
+            <button type="button" id="clear-btn" class="btn-danger">清除全部</button>
+        </div>
+    </form>
+    
+    <div class="current-storage">
+        <h3>当前 LocalStorage 数据:</h3>
+        <div id="current-storage"></div>
+    </div>
+    
+    <div id="message" class="message"></div>
+    
+    <a href="display_localstorage.html" class="nav-link">查看 LocalStorage</a>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('storage-form');
+            const deleteBtn = document.getElementById('delete-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const messageDiv = document.getElementById('message');
+            const currentStorageDiv = document.getElementById('current-storage');
+            
+            // 显示当前所有 LocalStorage 数据
+            function displayCurrentStorage() {
+                if (!localStorage.length) {
+                    currentStorageDiv.innerHTML = '<p>没有 LocalStorage 数据</p>';
+                    return;
+                }
+                
+                let html = '<ul>';
+                
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    const value = localStorage.getItem(key);
+                    html += `<li><strong>${key}:</strong> ${value}</li>`;
+                }
+                
+                html += '</ul>';
+                currentStorageDiv.innerHTML = html;
+            }
+            
+            displayCurrentStorage();
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const key = document.getElementById('storage-key').value.trim();
+                const value = document.getElementById('storage-value').value.trim();
+                
+                if (!key || !value) {
+                    showMessage('键名和键值不能为空', 'error');
+                    return;
+                }
+                
+                localStorage.setItem(key, value);
+                showMessage(`数据 "${key}" 已成功设置!`, 'success');
+                displayCurrentStorage();
+            });
+            
+            deleteBtn.addEventListener('click', function() {
+                const key = document.getElementById('storage-key').value.trim();
+                
+                if (!key) {
+                    showMessage('请输入要删除的键名', 'error');
+                    return;
+                }
+                
+                if (!localStorage.getItem(key)) {
+                    showMessage(`键名 "${key}" 不存在`, 'error');
+                    return;
+                }
+                
+                localStorage.removeItem(key);
+                showMessage(`数据 "${key}" 已删除`, 'success');
+                displayCurrentStorage();
+            });
+            
+            clearBtn.addEventListener('click', function() {
+                if (!localStorage.length) {
+                    showMessage('没有可清除的数据', 'error');
+                    return;
+                }
+                
+                localStorage.clear();
+                showMessage('所有 LocalStorage 数据已清除', 'success');
+                displayCurrentStorage();
+            });
+            
+            function showMessage(msg, type) {
+                messageDiv.textContent = msg;
+                messageDiv.className = 'message ' + type;
+                messageDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

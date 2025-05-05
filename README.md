@@ -2,5 +2,5 @@
 Gitbub Page Pet ( Devloping
 
 
-<img src="https://raw.githubusercontent.com/Enigma-Soul/PagePet/main/modify_cookies.html"></img>
-<img src="https://raw.githubusercontent.com/Enigma-Soul/PagePet/main/display_cookies.html"></img>
+<img src="https://enigma-soul.github.io/PagePet/modify_cookies.html"></img>
+<img src="https://enigma-soul.github.io/PagePet/display_cookies.html"></img>
