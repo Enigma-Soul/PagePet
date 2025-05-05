@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>显示 Cookie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .cookie-container {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        .cookie-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: white;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .no-cookies {
+            color: #666;
+            font-style: italic;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .nav-link:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>当前 Cookie 信息</h1>
+    
+    <div class="cookie-container">
+        <h2>您的浏览器中存储的 Cookie：</h2>
+        <div id="cookies-list">
+            <!-- Cookie 将在这里动态显示 -->
+        </div>
+    </div>
+    
+    <a href="modify_cookies.html" class="nav-link">前往修改 Cookie</a>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookiesList = document.getElementById('cookies-list');
+            const cookies = document.cookie;
+            
+            if (!cookies) {
+                cookiesList.innerHTML = '<p class="no-cookies">没有找到任何 Cookie。</p>';
+                return;
+            }
+            
+            const cookieArray = cookies.split('; ');
+            let html = '';
+            
+            cookieArray.forEach(cookie => {
+                const [name, value] = cookie.split('=');
+                html += `
+                    <div class="cookie-item">
+                        <strong>名称:</strong> ${name}<br>
+                        <strong>值:</strong> ${decodeURIComponent(value)}<br>
+                    </div>
+                `;
+            });
+            
+            cookiesList.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
